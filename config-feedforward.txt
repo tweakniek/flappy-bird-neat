@@ -1,9 +1,16 @@
+#--- NEAT-instellingen voor zelflerende Flappy Bird ---#
+# Veranderen om te experimenteren: pop_size (populatiegrootte),
+# de mutatiekansen, compatibility_threshold en max_stagnation.
+
 [NEAT]
 fitness_criterion     = max
-fitness_threshold     = 1000
-pop_size              = 100
-reset_on_extinction   = False
-no_fitness_termination = False
+# De training wordt gestopt door SCORE_DOEL in flappy_neat.py, dus de drempel
+# hier staat bewust heel hoog zodat NEAT zelf niet eerder stopt.
+fitness_threshold     = 1000000
+# Startwaarde 20. Kleiner = sneller per generatie, maar minder variatie.
+# Opdracht: zo klein mogelijk. Probeer 10, 15, 20, 30 en vergelijk.
+pop_size              = 20
+reset_on_extinction   = True
 
 [DefaultGenome]
 # node activation options
@@ -38,8 +45,7 @@ enabled_default         = True
 enabled_mutate_rate     = 0.01
 
 feed_forward            = True
-# changed in v0.92
-initial_connection      = full_nodirect
+initial_connection      = full_direct
 
 # node add/remove rates
 node_add_prob           = 0.2
