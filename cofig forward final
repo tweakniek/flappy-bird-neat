@@ -1,0 +1,99 @@
+[NEAT]
+# 'max': het beste vogeltje van de populatie bepaalt de fitness van de populatie.
+fitness_criterion     = max
+# De training wordt gestopt door SCORE_DOEL in flappy_neat.py, dus de drempel
+# hier staat bewust heel hoog zodat NEAT zelf niet eerder stopt.
+fitness_threshold     = 1000000
+# Aantal vogeltjes per generatie. Startwaarde 20. Kleiner = sneller per generatie,
+# maar minder variatie. Opdracht: zo klein mogelijk. Probeer 10, 15, 20, 30 en vergelijk.
+pop_size              = 20
+# Sterven alle soorten uit (kan bij een kleine populatie), dan opnieuw beginnen
+# in plaats van een foutmelding.
+reset_on_extinction   = True
+
+[DefaultGenome]
+# --- Activatiefunctie van de neuronen ---
+# tanh geeft een getal tussen -1 en 1. In de code springt het vogeltje bij een uitkomst > 0.5.
+activation_default      = tanh
+activation_mutate_rate  = 0.0
+activation_options      = tanh
+
+# --- Hoe de invoeren van een neuron worden samengevoegd: som van invoer x gewicht ---
+aggregation_default     = sum
+aggregation_mutate_rate = 0.0
+aggregation_options     = sum
+
+# --- Bias (verschuiving van een neuron) ---
+bias_init_mean          = 0.0
+bias_init_stdev         = 1.0
+bias_max_value          = 30.0
+bias_min_value          = -30.0
+# Hoe groot een mutatie van de bias is en hoe vaak hij verandert of vervangen wordt.
+bias_mutate_power       = 0.5
+bias_mutate_rate        = 0.7
+bias_replace_rate       = 0.1
+
+# --- Hoe verschillend twee netwerken zijn (bepaalt in welke 'soort' ze zitten) ---
+compatibility_disjoint_coefficient = 1.0
+compatibility_weight_coefficient   = 0.5
+
+# --- Kans per generatie dat een verbinding wordt toegevoegd of verwijderd ---
+conn_add_prob           = 0.5
+conn_delete_prob        = 0.5
+
+# --- Verbindingen kunnen uit- en aangezet worden ---
+enabled_default         = True
+enabled_mutate_rate     = 0.01
+
+# Geen terugkoppelingen in het netwerk: invoer gaat alleen vooruit naar de uitvoer.
+feed_forward            = True
+# Elk invoerneuron start verbonden met de uitvoer (er zijn nog geen verborgen neuronen).
+initial_connection      = full_direct
+
+# --- Kans per generatie dat een verborgen neuron wordt toegevoegd of verwijderd ---
+node_add_prob           = 0.2
+node_delete_prob        = 0.2
+
+# --- Opbouw van het netwerk ---
+num_hidden              = 0
+# BELANGRIJK: num_inputs moet precies gelijk zijn aan het aantal getallen dat in de code
+# aan net.activate(...) wordt meegegeven. Nu: 3 (hoogte vogeltje, afstand tot bovenkant
+# gat, afstand tot onderkant gat). Geef je er in de code 4 mee (bijv. met snelheid), zet dit dan op 4.
+num_inputs              = 3
+# 1 uitvoer: springen ja of nee.
+num_outputs             = 1
+
+# --- Response (vermenigvuldiger van een neuron): staat bewust vast op 1.0 ---
+response_init_mean      = 1.0
+response_init_stdev     = 0.0
+response_max_value      = 30.0
+response_min_value      = -30.0
+response_mutate_power   = 0.0
+response_mutate_rate    = 0.0
+response_replace_rate   = 0.0
+
+# --- Gewichten van de verbindingen: dit is waar het leren vooral in zit ---
+weight_init_mean        = 0.0
+weight_init_stdev       = 1.0
+weight_max_value        = 30
+weight_min_value        = -30
+# Hoe groot een gewichtsmutatie is, hoe vaak een gewicht muteert en hoe vaak het vervangen wordt.
+weight_mutate_power     = 0.5
+weight_mutate_rate      = 0.8
+weight_replace_rate     = 0.1
+
+[DefaultSpeciesSet]
+# Netwerken die minder dan deze afstand verschillen, horen bij dezelfde soort.
+compatibility_threshold = 3.0
+
+[DefaultStagnation]
+# Een soort die zich zoveel generaties niet verbetert, sterft uit (de beste 2 soorten blijven altijd).
+species_fitness_func = max
+max_stagnation       = 20
+species_elitism      = 2
+
+[DefaultReproduction]
+# De beste 2 vogeltjes gaan ongewijzigd naar de volgende generatie.
+elitism            = 2
+# Alleen de beste 20% van elke soort mag nakomelingen krijgen.
+survival_threshold = 0.2
